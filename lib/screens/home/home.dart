@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutteruapp/ads/Ads.dart';
+import 'package:flutteruapp/utils/Ads.dart';
 import 'package:flutteruapp/widgets/color_loader.dart';
 
 import 'widgets/content_list.dart';
@@ -16,7 +16,6 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-
     Ads.initialize();
     Ads.showBannerAd();
 
@@ -85,6 +84,7 @@ class _HomeState extends State<Home> {
     adsContainer.add(new Container(
       height: 50.0,
     ));
+
 
     return Scaffold(
       body: FutureBuilder(

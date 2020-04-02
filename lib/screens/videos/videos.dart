@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutteruapp/ads/Ads.dart';
+import 'package:flutteruapp/utils//Ads.dart';
 import 'package:flutteruapp/configs/AppString.dart';
 import 'package:flutteruapp/widgets/appbar_container.dart';
 import 'package:flutteruapp/widgets/color_loader.dart';
@@ -13,8 +13,8 @@ import 'widgets/search_modal.dart';
 import 'widgets/video_card.dart';
 
 class Videos extends StatefulWidget {
-  Videos({Key key, @required this.data}) : super(key: key);
-  final String data;
+  Videos({Key key, @required this.keyword}) : super(key: key);
+  final String keyword;
 
   @override
   _VideosState createState() => _VideosState();
@@ -25,7 +25,7 @@ class _VideosState extends State<Videos> with SingleTickerProviderStateMixin {
   String keyword;
   Animation<double> _animation;
   AnimationController _controller;
-  YoutubeSearch httpService;
+  YoutubeSearch _youtubeSearch;
 
   @override
   void initState() {
@@ -66,10 +66,10 @@ class _VideosState extends State<Videos> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    //keyword = widget.keyword;
+    keyword = "bangla song";
 
-    keyword = widget.data;
-
-    httpService = YoutubeSearch(
+    _youtubeSearch = YoutubeSearch(
       keyword: keyword,
       key: AppString.key,
       maxResults: '50',
@@ -90,7 +90,7 @@ class _VideosState extends State<Videos> with SingleTickerProviderStateMixin {
               SizedBox(height: 34),
               Expanded(
                 child: FutureBuilder(
-                  future: httpService.getVideos(),
+                  future: _youtubeSearch.getVideos(),
                   builder: (BuildContext context,
                       AsyncSnapshot<List<Video>> snapshot) {
                     switch (snapshot.connectionState) {

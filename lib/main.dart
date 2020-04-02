@@ -12,6 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      showSemanticsDebugger: false,
       color: Colors.white,
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
 
       case '/video_list':
         return FadeRoute(page: Videos(
-          data: args,
+          keyword: args,
         ));
 
       case '/video_player':

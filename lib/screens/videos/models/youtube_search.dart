@@ -38,7 +38,7 @@ class YoutubeSearch {
 
       return videos;
     } else {
-      throw "Can't get posts.";
+      throw "Can't get videos.";
     }
   }
 }

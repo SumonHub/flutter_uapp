@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutteruapp/ads/Ads.dart';
+import 'package:flutteruapp/utils//Ads.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VideoPlayer extends StatefulWidget {
