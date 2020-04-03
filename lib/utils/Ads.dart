@@ -24,7 +24,7 @@ class Ads {
 
   static String getBannerAdUnitId() {
     if (Platform.isIOS) {
-      return AppString.BANNER_AD_UNIT_IOS;
+      return FirebaseAdMob.testAppId;
     } else if (Platform.isAndroid) {
       return AppString.BANNER_AD_UNIT_ANDROID;
     }
@@ -33,7 +33,7 @@ class Ads {
 
   static String getInterstitialAdUnitId() {
     if (Platform.isIOS) {
-      return AppString.INTERSTITIAL_AD_UNIT_IOS;
+      return FirebaseAdMob.testAppId;
     } else if (Platform.isAndroid) {
       return AppString.INTERSTITIAL_AD_UNIT_ANDROID;
     }
