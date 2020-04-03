@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'configs/AppColors.dart';
+import 'package:flutteruapp/res/AppColors.dart';
+
 import 'screens/home/home.dart';
 import 'screens/video_player/video_player.dart';
 import 'screens/videos/videos.dart';
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      showSemanticsDebugger: false,
+      debugShowCheckedModeBanner: false,
       color: Colors.white,
       title: 'Flutter Demo',
       theme: ThemeData(

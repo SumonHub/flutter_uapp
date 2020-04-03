@@ -1,7 +1,8 @@
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutteruapp/res/AppString.dart';
 import 'package:flutteruapp/utils//Ads.dart';
-import 'package:flutteruapp/configs/AppString.dart';
 import 'package:flutteruapp/widgets/appbar_container.dart';
 import 'package:flutteruapp/widgets/color_loader.dart';
 import 'package:flutteruapp/widgets/fab.dart';
@@ -27,6 +28,21 @@ class _VideosState extends State<Videos> with SingleTickerProviderStateMixin {
   AnimationController _controller;
   YoutubeSearch _youtubeSearch;
 
+  bool isOffline = false;
+
+  checkConnection() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      setState(() {
+        isOffline = true;
+      });
+    } else {
+      setState(() {
+        isOffline = false;
+      });
+    }
+  }
+
   @override
   void initState() {
     _controller = AnimationController(
@@ -35,13 +51,12 @@ class _VideosState extends State<Videos> with SingleTickerProviderStateMixin {
     );
 
     final curvedAnimation =
-        CurvedAnimation(curve: Curves.easeInOut, parent: _controller);
+    CurvedAnimation(curve: Curves.easeInOut, parent: _controller);
     _animation = Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
 
     Ads.initialize();
     Ads.showBannerAd();
-
-    print('--------------Videos init----------------');
+    checkConnection();
 
     super.initState();
   }
@@ -71,7 +86,7 @@ class _VideosState extends State<Videos> with SingleTickerProviderStateMixin {
 
     _youtubeSearch = YoutubeSearch(
       keyword: keyword,
-      key: AppString.key,
+      key: AppString.API_KEY_YOUTUBE,
       maxResults: '50',
       order: YoutubeSearch.RELEVANCE,
     );
@@ -80,6 +95,14 @@ class _VideosState extends State<Videos> with SingleTickerProviderStateMixin {
     adsContainer.add(new Container(
       height: 50.0,
     ));
+
+    if (isOffline) {
+      return Scaffold(
+        body: Center(
+          child: Text('Please turn on internet!'),
+        ),
+      );
+    }
 
     return Scaffold(
       body: Stack(
@@ -110,7 +133,7 @@ class _VideosState extends State<Videos> with SingleTickerProviderStateMixin {
                         return GridView.builder(
                             physics: BouncingScrollPhysics(),
                             gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
+                            SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 1,
                               childAspectRatio: 1.4,
                               crossAxisSpacing: 10,

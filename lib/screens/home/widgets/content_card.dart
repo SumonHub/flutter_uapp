@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutteruapp/configs/AppColors.dart';
+import 'package:flutteruapp/res/AppColors.dart';
 
 class ContentCard extends StatelessWidget {
   const ContentCard({

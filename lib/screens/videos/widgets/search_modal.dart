@@ -26,8 +26,12 @@ class SearchBottomModal extends StatelessWidget {
             ),
           ),
           SizedBox(height: 18),
-          SearchBar(margin: EdgeInsets.all(0)),
-          SizedBox(height: MediaQuery.of(context).viewInsets.bottom + 18),
+          SearchBar(
+              margin: EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 70)),
+          SizedBox(height: MediaQuery
+              .of(context)
+              .viewInsets
+              .bottom),
         ],
       ),
     );

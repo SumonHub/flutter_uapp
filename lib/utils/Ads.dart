@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:firebase_admob/firebase_admob.dart';
+import 'package:flutteruapp/res/AppString.dart';
 
 const String testDevice = 'YOUR_DEVICE_ID';
 
@@ -19,48 +22,54 @@ class Ads {
     nonPersonalizedAds: true,
   );
 
-  static BannerAd _createBannerAd() {
+  static String getBannerAdUnitId() {
+    if (Platform.isIOS) {
+      return AppString.BANNER_AD_UNIT_IOS;
+    } else if (Platform.isAndroid) {
+      return AppString.BANNER_AD_UNIT_ANDROID;
+    }
+    return null;
+  }
+
+  static String getInterstitialAdUnitId() {
+    if (Platform.isIOS) {
+      return AppString.INTERSTITIAL_AD_UNIT_IOS;
+    } else if (Platform.isAndroid) {
+      return AppString.INTERSTITIAL_AD_UNIT_ANDROID;
+    }
+    return null;
+  }
+
+  static BannerAd createBannerAd() {
     return BannerAd(
-      adUnitId: BannerAd.testAdUnitId,
+      adUnitId: getBannerAdUnitId(),
       size: AdSize.fullBanner,
-     // targetingInfo: targetingInfo,
+      //targetingInfo: targetingInfo,
       listener: (MobileAdEvent event) {
         print("BannerAd event $event");
-       /* if (event == MobileAdEvent.loaded) {
-          _adShown = true;
-
-        } else if (event == MobileAdEvent.failedToLoad) {
-          _adShown = false;
-
-        }*/
       },
     );
   }
 
   static InterstitialAd createInterstitialAd() {
     return InterstitialAd(
-      adUnitId: InterstitialAd.testAdUnitId,
-      // targetingInfo: targetingInfo,
+      adUnitId: getInterstitialAdUnitId(),
+      //targetingInfo: targetingInfo,
       listener: (MobileAdEvent event) {
-        if (event == MobileAdEvent.failedToLoad) {
-          _interstitialAd..load();
-        } else if (event == MobileAdEvent.closed) {
-          _interstitialAd = createInterstitialAd()..load();
-        }
         print("InterstitialAd event $event");
       },
     );
   }
 
   static void showBannerAd() {
-    if (_bannerAd == null) _bannerAd = _createBannerAd();
+    if (_bannerAd == null) _bannerAd = createBannerAd();
     _bannerAd
       ..load()
       ..show(anchorOffset: 0.0, anchorType: AnchorType.bottom);
     _adShown = true;
   }
 
-  static void showInterstitialAd(){
+  static void showInterstitialAd() {
     _interstitialAd?.dispose();
     _interstitialAd = createInterstitialAd()..load();
     _interstitialAd?.show();
@@ -72,7 +81,7 @@ class Ads {
     _adShown = false;
   }
 
-  static bool isAdsShowing(){
-    return _bannerAd == null? false: true;
+  static bool isAdsShowing() {
+    return _bannerAd == null ? false : true;
   }
 }

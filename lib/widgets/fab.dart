@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutteruapp/configs/AppColors.dart';
+import 'package:flutteruapp/res/AppColors.dart';
 
 class FabItem {
   const FabItem(this.title, this.icon, {this.onPress});

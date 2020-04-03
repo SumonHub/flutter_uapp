@@ -1,3 +1,4 @@
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutteruapp/utils//Ads.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -20,10 +21,26 @@ class _VideoPlayerState extends State<VideoPlayer>
   bool _muted = false;
   bool _isPlayerReady = false;
 
+  bool isOffline = false;
+
+  checkConnection() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      setState(() {
+        isOffline = true;
+      });
+    } else {
+      setState(() {
+        isOffline = false;
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     Ads.hideBannerAd();
+    checkConnection();
 
     _videoMetaData = YoutubeMetaData();
     _playerState = PlayerState.unknown;
@@ -84,8 +101,8 @@ class _VideoPlayerState extends State<VideoPlayer>
                 flex: 0,
                 child: Container(
                   decoration: BoxDecoration(
-                      // borderRadius: BorderRadius.circular(12.0),
-                      ),
+                    // borderRadius: BorderRadius.circular(12.0),
+                  ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(12.0),
                     child: YoutubePlayer(
@@ -107,6 +124,14 @@ class _VideoPlayerState extends State<VideoPlayer>
               ),
             ],
           ),
+        ),
+      );
+    }
+
+    if (isOffline) {
+      return Scaffold(
+        body: Center(
+          child: Text('Please turn on internet!'),
         ),
       );
     }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutteruapp/configs/AppColors.dart';
+import 'package:flutteruapp/res/AppColors.dart';
 
 class ProgressBar extends StatelessWidget {
   const ProgressBar({

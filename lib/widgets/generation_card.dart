@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutteruapp/configs/AppColors.dart';
 import 'package:flutteruapp/models/generation.dart';
+import 'package:flutteruapp/res/AppColors.dart';
 
 class GenerationCard extends StatelessWidget {
   const GenerationCard(this.generation, {Key key}) : super(key: key);

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutteruapp/configs/AppString.dart';
+import 'package:flutteruapp/res/AppString.dart';
 import 'package:http/http.dart';
 
 import 'video.dart';
@@ -22,7 +22,7 @@ class YoutubeSearch {
         '&order=${this.order}'
         '&q=${this.keyword}'
         '&type=video&videoEmbeddable=true&videoLicense=youtube&videoSyndicated=true'
-        '&key=${AppString.key}';
+        '&key=${AppString.API_KEY_YOUTUBE}';
 
     print('------httpURL------');
     print(httpURL);

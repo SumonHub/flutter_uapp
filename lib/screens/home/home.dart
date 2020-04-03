@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutteruapp/utils/Ads.dart';
 import 'package:flutteruapp/widgets/color_loader.dart';
@@ -13,20 +14,19 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  @override
-  void initState() {
-    super.initState();
-    Ads.initialize();
-    Ads.showBannerAd();
+  bool isOffline = false;
 
-    print('--------------Videos init----------------');
-
-  }
-
-  @override
-  void dispose() {
-    Ads.hideBannerAd();
-    super.dispose();
+  checkConnection() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      setState(() {
+        isOffline = true;
+      });
+    } else {
+      setState(() {
+        isOffline = false;
+      });
+    }
   }
 
   Widget _buildCard(data) {
@@ -79,11 +79,35 @@ class _HomeState extends State<Home> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    Ads.initialize();
+    Ads.showBannerAd();
+    checkConnection();
+
+    print('--------------Videos init----------------');
+  }
+
+  @override
+  void dispose() {
+    Ads.hideBannerAd();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     List<Widget> adsContainer = new List<Widget>();
     adsContainer.add(new Container(
       height: 50.0,
     ));
+
+    if (isOffline) {
+      return Scaffold(
+        body: Center(
+          child: Text('Please turn on internet!'),
+        ),
+      );
+    }
 
 
     return Scaffold(
