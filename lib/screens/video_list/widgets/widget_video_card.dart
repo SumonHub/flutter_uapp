@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutteruapp/screens/videos/models/video.dart';
+import 'package:flutteruapp/screens/video_list/models/video.dart';
 
 String capitalizeFirstChar(String text) {
   if (text == null || text.length <= 1) {
@@ -9,25 +9,15 @@ String capitalizeFirstChar(String text) {
   return text[0].toUpperCase() + text.substring(1);
 }
 
-class VideoCard extends StatelessWidget {
-  const VideoCard({
+class WidgetVideoCard extends StatelessWidget {
+  const WidgetVideoCard({
     Key key,
-    @required this.data,
+    @required this.video,
     @required this.onPress,
   }) : super(key: key);
 
   final Function onPress;
-  final Video data;
-
-  Widget _buildBackground(){
-    return Container(
-      decoration: BoxDecoration(
-          image: DecorationImage(
-              image: NetworkImage(
-                  "${data.snippet.thumbnails.medium.url}"),
-              fit: BoxFit.fill)),
-    );
-  }
+  final Video video;
 
   Widget _buildCardContent() {
     return Align(
@@ -38,11 +28,11 @@ class VideoCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Hero(
-              tag: data.id,
+              tag: video.link,
               child: Material(
                 color: Colors.transparent,
                 child: Text(
-                  data.snippet.title,
+                  video.title,
                   style: TextStyle(
                     fontSize: 14,
                     height: 0.7,
@@ -85,7 +75,6 @@ class VideoCard extends StatelessWidget {
                 highlightColor: Colors.white10,
                 child: Stack(
                   children: [
-                    _buildBackground(),
                     _buildCardContent(),
                   ],
                 ),

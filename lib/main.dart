@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutteruapp/res/AppColors.dart';
+import 'package:flutteruapp/screens/video_list/video_list.dart';
 
-import 'screens/home/home.dart';
+import 'screens/category_list/category_list.dart';
 import 'screens/video_player/video_player.dart';
-import 'screens/videos/videos.dart';
 import 'widgets/fade_page_route.dart';
 
 void main() => runApp(MyApp());
@@ -32,16 +32,17 @@ class MyApp extends StatelessWidget {
 
     switch (settings.name) {
       case "/":
-        return FadeRoute(page: Home());
+        return FadeRoute(page: CategoryList());
 
       case '/video_list':
-        return FadeRoute(page: Videos(
-          keyword: args,
+        return FadeRoute(
+            page: VideoList(
+          videoList: args,
         ));
 
       case '/video_player':
         return FadeRoute(page: VideoPlayer(
-          data: args,
+          video: args,
         ));
 
       default:

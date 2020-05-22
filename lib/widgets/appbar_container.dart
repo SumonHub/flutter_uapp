@@ -29,16 +29,6 @@ class AppBarContainer extends StatelessWidget {
       decoration: decoration,
       child: Stack(
         children: <Widget>[
-          Positioned(
-            top: pokeTop,
-            right: pokeRight,
-            child: Image.asset(
-              "assets/images/pokeball.png",
-              width: pokeSize,
-              height: pokeSize,
-              color: Color(0xFF303943).withOpacity(0.05),
-            ),
-          ),
           Column(
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -60,10 +50,11 @@ class AppBarContainer extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Icon(Icons.menu),
-                    ],
+                    SizedBox(height: 34),
+                  ],
                   ),
                 ),
+              SizedBox(height: 20),
               if (children != null) ...children,
             ],
           ),

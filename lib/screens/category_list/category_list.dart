@@ -1,19 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
+import 'package:flutteruapp/res/AppString.dart';
 import 'package:flutteruapp/utils/Ads.dart';
 import 'package:flutteruapp/widgets/color_loader.dart';
 
-import 'widgets/content_list.dart';
+import 'widgets/widget_category_list.dart';
 
-class Home extends StatefulWidget {
-  static const cardHeightFraction = 0.65;
-
+class CategoryList extends StatefulWidget {
   @override
-  _HomeState createState() => _HomeState();
+  _CategoryListState createState() => _CategoryListState();
 }
 
-class _HomeState extends State<Home> {
+class _CategoryListState extends State<CategoryList> {
   bool isOffline = false;
 
   checkConnection() async {
@@ -29,63 +28,11 @@ class _HomeState extends State<Home> {
     }
   }
 
-  Widget _buildCard(data) {
-    List categories = data['test_response'] as List;
-
-    final screenSize = MediaQuery.of(context).size;
-
-    final pokeSize = screenSize.width * 0.66;
-    final pokeTop = -(screenSize.width * 0.154);
-    final pokeRight = -(screenSize.width * 0.23);
-
-    return Container(
-      width: screenSize.width,
-      child: Stack(
-        children: <Widget>[
-          Positioned(
-            top: pokeTop,
-            right: pokeRight,
-            child: Image.asset(
-              "assets/images/pokeball.png",
-              width: pokeSize,
-              height: pokeSize,
-              color: Color(0xFF303943).withOpacity(0.05),
-            ),
-          ),
-          Column(
-            children: <Widget>[
-              SizedBox(height: 70),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 28),
-                child: Text(
-                  "What Content\nare you looking for?",
-                  style: TextStyle(
-                    fontSize: 30,
-                    height: 0.9,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-              ),
-              SizedBox(height: 20),
-              Expanded(
-                  child: ContentList(
-                categories: categories,
-              ))
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   void initState() {
     super.initState();
     Ads.initialize();
     Ads.showBannerAd();
-    checkConnection();
-
-    print('--------------Videos init----------------');
   }
 
   @override
@@ -112,7 +59,7 @@ class _HomeState extends State<Home> {
 
     return Scaffold(
       body: FutureBuilder(
-          future: Firestore.instance.document('test_collection/test_doc').get(),
+          future: Firestore.instance.document(AppString.FIRESTORE_LINK).get(),
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.none:
@@ -127,7 +74,8 @@ class _HomeState extends State<Home> {
                     child: Text('Error: ${snapshot.error}'),
                   );
                 }
-                return _buildCard(snapshot.data);
+                //return Center(child: Text(snapshot.data));
+                return WidgetCategoryList(categoryList: snapshot.data);
             }
             return null;
           }),

@@ -1,12 +1,12 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
+import 'package:flutteruapp/screens/video_list/models/video.dart';
 import 'package:flutteruapp/utils//Ads.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VideoPlayer extends StatefulWidget {
-  final String data;
-
-  const VideoPlayer({Key key, @required this.data}) : super(key: key);
+  const VideoPlayer({Key key, @required this.video}) : super(key: key);
+  final Video video;
 
   @override
   _VideoPlayerState createState() => _VideoPlayerState();
@@ -14,12 +14,7 @@ class VideoPlayer extends StatefulWidget {
 
 class _VideoPlayerState extends State<VideoPlayer>
     with TickerProviderStateMixin {
-  String _videoId;
   YoutubePlayerController _controller;
-  PlayerState _playerState;
-  YoutubeMetaData _videoMetaData;
-  bool _muted = false;
-  bool _isPlayerReady = false;
 
   bool isOffline = false;
 
@@ -41,23 +36,10 @@ class _VideoPlayerState extends State<VideoPlayer>
     super.initState();
     Ads.hideBannerAd();
     checkConnection();
-
-    _videoMetaData = YoutubeMetaData();
-    _playerState = PlayerState.unknown;
-  }
-
-  void listener() {
-    if (_isPlayerReady && mounted && !_controller.value.isFullScreen) {
-      setState(() {
-        _playerState = _controller.value.playerState;
-        _videoMetaData = _controller.metadata;
-      });
-    }
   }
 
   @override
   void deactivate() {
-    // Pauses video while navigating to next page.
     _controller.pause();
     super.deactivate();
   }
@@ -72,19 +54,17 @@ class _VideoPlayerState extends State<VideoPlayer>
 
   @override
   Widget build(BuildContext context) {
-    _videoId = widget.data;
 
     _controller = YoutubePlayerController(
-      initialVideoId: _videoId,
+      initialVideoId: YoutubePlayer.convertUrlToId(widget.video.link),
       flags: YoutubePlayerFlags(
         mute: false,
         autoPlay: true,
         disableDragSeek: false,
         loop: false,
         isLive: false,
-        forceHideAnnotation: true,
       ),
-    )..addListener(listener);
+    );
 
     Widget yt() {
       return Container(
@@ -96,27 +76,25 @@ class _VideoPlayerState extends State<VideoPlayer>
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              //Container which video tumbnail
               Expanded(
                 flex: 0,
                 child: Container(
-                  decoration: BoxDecoration(
-                    // borderRadius: BorderRadius.circular(12.0),
-                  ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(12.0),
                     child: YoutubePlayer(
+                      width: MediaQuery.of(context).size.width,
+                      controller: _controller,
                       bufferIndicator: RichText(
                           text: TextSpan(
                               text: ' Awaiting... ',
                               style: TextStyle(
                                 color: Colors.blueAccent,
                                 fontWeight: FontWeight.bold,
-                              ))),
-                      width: MediaQuery.of(context).size.width,
-                      controller: _controller,
+                              )
+                          )
+                      ),
                       onReady: () {
-                        _isPlayerReady = true;
+                        _controller.toggleFullScreenMode();
                       },
                     ),
                   ),
