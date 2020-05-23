@@ -24,7 +24,7 @@ class Ads {
 
   static String getBannerAdUnitId() {
     if (Platform.isIOS) {
-      return FirebaseAdMob.testAppId;
+      return AppString.BANNER_AD_UNIT_IOS;
     } else if (Platform.isAndroid) {
       return AppString.BANNER_AD_UNIT_ANDROID;
     }
@@ -33,7 +33,7 @@ class Ads {
 
   static String getInterstitialAdUnitId() {
     if (Platform.isIOS) {
-      return FirebaseAdMob.testAppId;
+      return AppString.INTERSTITIAL_AD_UNIT_IOS;
     } else if (Platform.isAndroid) {
       return AppString.INTERSTITIAL_AD_UNIT_ANDROID;
     }
@@ -46,7 +46,7 @@ class Ads {
       size: AdSize.fullBanner,
       //targetingInfo: targetingInfo,
       listener: (MobileAdEvent event) {
-        print("BannerAd event $event");
+        print("BannerAd event = $event");
       },
     );
   }
@@ -56,7 +56,7 @@ class Ads {
       adUnitId: getInterstitialAdUnitId(),
       //targetingInfo: targetingInfo,
       listener: (MobileAdEvent event) {
-        print("InterstitialAd event $event");
+        print("InterstitialAd event = $event");
       },
     );
   }
@@ -81,7 +81,7 @@ class Ads {
     _adShown = false;
   }
 
-  static bool isAdsShowing() {
+  static bool isBannerAdsShowing() {
     return _bannerAd == null ? false : true;
   }
 }

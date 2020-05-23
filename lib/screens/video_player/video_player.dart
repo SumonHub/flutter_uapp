@@ -1,7 +1,7 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutteruapp/screens/video_list/models/video.dart';
-import 'package:flutteruapp/utils//Ads.dart';
+import 'package:flutteruapp/utils//admob_ads.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VideoPlayer extends StatefulWidget {
@@ -49,8 +49,6 @@ class _VideoPlayerState extends State<VideoPlayer>
     _controller.dispose();
     super.dispose();
   }
-
-  //  AIzaSyBs5SHwVdGxRJcj7VcLHwzhh0DOGuBqEYY
 
   @override
   Widget build(BuildContext context) {

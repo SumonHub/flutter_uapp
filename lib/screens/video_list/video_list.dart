@@ -1,9 +1,8 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutteruapp/utils//Ads.dart';
+import 'package:flutteruapp/utils/admob_ads.dart';
 import 'package:flutteruapp/widgets/appbar_container.dart';
-import 'package:flutteruapp/widgets/fab.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import 'models/video.dart';
@@ -89,7 +88,7 @@ class _VideoListState extends State<VideoList>
           ),
         ],
       ),
-      floatingActionButton: ExpandedAnimationFab(
+      /*floatingActionButton: ExpandedAnimationFab(
         items: [
           FabItem(
             "Favourite Items",
@@ -107,8 +106,8 @@ class _VideoListState extends State<VideoList>
             animController.forward();
           }
         },
-      ),
-      persistentFooterButtons: Ads.isAdsShowing() ? adsContainer : null,
+      ),*/
+      persistentFooterButtons: Ads.isBannerAdsShowing() ? adsContainer : null,
     );
   }
 
@@ -116,8 +115,7 @@ class _VideoListState extends State<VideoList>
     return GestureDetector(
       onTap: () {
         Ads.showInterstitialAd();
-        Navigator.of(context)
-            .pushNamed("/video_player", arguments: video);
+        Navigator.of(context).pushNamed("/video_player", arguments: video);
       },
       child: Container(
         margin: EdgeInsets.only(left: 12.0, right: 12.0, bottom: 12.0),
@@ -133,8 +131,7 @@ class _VideoListState extends State<VideoList>
                       topLeft: Radius.circular(20.0),
                       topRight: Radius.circular(20.0)),
                   child: Image.network(
-                    'https://img.youtube.com/vi/${YoutubePlayer.convertUrlToId(
-                        video.link)}/0.jpg',
+                    'https://img.youtube.com/vi/${YoutubePlayer.convertUrlToId(video.link)}/0.jpg',
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -143,7 +140,7 @@ class _VideoListState extends State<VideoList>
                 color: Colors.white,
                 padding: EdgeInsets.all(12.0),
                 child: Text(
-                  'Amar sonar bangla ami toamy valobashi. chirodin tomar akash tomar batash amar prane bajay bashi sonar bbangla am i',
+                  "${video.title}",
                   style: TextStyle(
                     fontSize: 16.0,
                   ),
@@ -156,4 +153,3 @@ class _VideoListState extends State<VideoList>
     );
   }
 }
-

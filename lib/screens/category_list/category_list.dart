@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutteruapp/res/AppString.dart';
-import 'package:flutteruapp/utils/Ads.dart';
+import 'package:flutteruapp/utils/admob_ads.dart';
 import 'package:flutteruapp/widgets/color_loader.dart';
 
 import 'widgets/widget_category_list.dart';
@@ -79,7 +79,7 @@ class _CategoryListState extends State<CategoryList> {
             }
             return null;
           }),
-      persistentFooterButtons: Ads.isAdsShowing() ? adsContainer : null,
+      persistentFooterButtons: Ads.isBannerAdsShowing() ? adsContainer : null,
     );
   }
 }
