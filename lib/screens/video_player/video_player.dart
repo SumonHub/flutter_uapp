@@ -1,7 +1,7 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutteruapp/screens/video_list/models/video.dart';
-import 'package:flutteruapp/utils//admob_ads.dart';
+import 'package:flutteruapp/utils/admob_ads.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VideoPlayer extends StatefulWidget {
@@ -34,8 +34,15 @@ class _VideoPlayerState extends State<VideoPlayer>
   @override
   void initState() {
     super.initState();
+    print('------------>player initState<---------------');
     Ads.hideBannerAd();
     checkConnection();
+    _controller = YoutubePlayerController(
+      initialVideoId: YoutubePlayer.convertUrlToId(widget.video.link),
+      flags: YoutubePlayerFlags(
+        autoPlay: false,
+      ),
+    );
   }
 
   @override
@@ -46,59 +53,29 @@ class _VideoPlayerState extends State<VideoPlayer>
 
   @override
   void dispose() {
+    print('------------>player dispose<---------------');
     _controller.dispose();
+    Ads.initialize();
+    Ads.showBannerAd();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-
-    _controller = YoutubePlayerController(
-      initialVideoId: YoutubePlayer.convertUrlToId(widget.video.link),
-      flags: YoutubePlayerFlags(
-        mute: false,
-        autoPlay: true,
-        disableDragSeek: false,
-        loop: false,
-        isLive: false,
-      ),
-    );
-
     Widget yt() {
       return Container(
         margin: EdgeInsets.symmetric(vertical: 12.0, horizontal: 12.0),
-        child: Material(
-          color: Color(0XFFFFFFFF),
-          elevation: 2.0,
+        decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Expanded(
-                flex: 0,
-                child: Container(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(12.0),
-                    child: YoutubePlayer(
-                      width: MediaQuery.of(context).size.width,
-                      controller: _controller,
-                      bufferIndicator: RichText(
-                          text: TextSpan(
-                              text: ' Awaiting... ',
-                              style: TextStyle(
-                                color: Colors.blueAccent,
-                                fontWeight: FontWeight.bold,
-                              )
-                          )
-                      ),
-                      onReady: () {
-                        _controller.toggleFullScreenMode();
-                      },
-                    ),
-                  ),
-                ),
-              ),
-            ],
+        ),
+        child: Center(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12.0),
+            child: YoutubePlayer(
+              width: MediaQuery.of(context).size.width,
+              controller: _controller,
+              actionsPadding: EdgeInsets.only(left: 16.0),
+            ),
           ),
         ),
       );
@@ -121,10 +98,7 @@ class _VideoPlayerState extends State<VideoPlayer>
             width: double.infinity,
             height: double.infinity,
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[yt()],
-          )
+          yt(),
         ],
       ),
     );

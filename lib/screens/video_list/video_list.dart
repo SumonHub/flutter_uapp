@@ -47,9 +47,6 @@ class _VideoListState extends State<VideoList>
     final curvedAnimation =
         CurvedAnimation(curve: Curves.easeInOut, parent: animController);
     animation = Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
-
-    Ads.initialize();
-    Ads.showBannerAd();
     checkConnection();
   }
 
@@ -121,6 +118,12 @@ class _VideoListState extends State<VideoList>
         margin: EdgeInsets.only(left: 12.0, right: 12.0, bottom: 12.0),
         child: Card(
           elevation: 3.0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20.0),
+              topRight: Radius.circular(20.0),
+            ),
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[

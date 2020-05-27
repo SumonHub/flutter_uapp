@@ -18,7 +18,7 @@ class WidgetCategoryCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Text(
-          title,
+          title.toUpperCase(),
           style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
